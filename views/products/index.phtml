@@ -1,0 +1,93 @@
+
+<!-- Page content-->
+<div class="container-fluid">
+
+    <!-- error message -->
+    <?php if(isset($error_message)){ ?>
+        <div class="alert alert-danger" role="alert">
+            <?php echo $error_message ?>
+        </div>
+    <?php } ?>
+
+
+    <h1 class="mt-4">Manage Products</h1>
+
+    <button type="button" style="float: right; margin: 10px 0" class="btn btn-primary" data-toggle="modal" data-target="#usersModal">
+    Insert New Product
+    </button>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">SKU</th>
+                <th scope="col">Categories</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach($products as $product) { ?>
+                <tr>
+                    <th scope="row"><?php echo $product->getId(); ?></th>
+                    <td><?php echo $product->getName(); ?> </td>
+                    <td><?php echo $product->getSku(); ?></td>
+                    <td><?php echo $product->getCategories(); ?></td>
+                    <td><?php echo $product->getPrice(); ?></td>
+                    <td>
+                        
+                        <a style="color:green" href="<?php echo $_SERVER['PHP_SELF'] .'?edit=' .$product->getId() ?>">Edit
+                    </a>
+                        
+                        <span> | </span>
+                        <a style="color:red" href="<?php echo $_SERVER['PHP_SELF'] .'?delete=' . $product->getId() ?>">Delete</a>
+                    </td>
+                </tr>
+            <?php } ?>
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="usersModal" tabindex="-1" role="dialog" aria-labelledby="usersModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+                <h5 class="modal-title" id="usersModalLabel">Inserir novo administrador</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="POST" action="<?php echo $_SERVER['PHP_SELF'] ?>">
+                <div class="modal-body">
+                    <div class="form-group row p-1">
+                        <label for="name" class="col-md-3 col-form-label text-md-right">Name: </label>
+                        <div class="col-md-9">
+                            <input type="text" name="name" class="form-control" required autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group row p-1">
+                        <label for="categories" class="col-md-3 col-form-label text-md-right">Categories: </label>
+                        <div class="col-md-9">
+                            <input type="text" name="categories" class="form-control" autofocus>
+                        </div>
+                    </div>
+                    <div class="form-group row p-1">
+                        <label for="price" class="col-md-3 col-form-label text-md-right">Price: </label>
+                        <div class="col-md-9">
+                            <input type="text" name="price" class="form-control" autofocus>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="sku" class="form-control" autofocus value="<?php $product->skuGenerator() ?>">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" method='post' class="btn btn-primary">confirm</button>
+                    </div>
+            </form>
+        </div>
+    </div>
+</div>
